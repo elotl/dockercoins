@@ -9,3 +9,12 @@ hasher = web service computing hash of POSTed data
 worker = background process using rng and hasher
 webui = web interface to watch progress
 ```
+
+## To Run with Kubernetes
+
+```bash
+cd kube
+for manifest in *.yml; do kubectl apply -f $manifest; done
+```
+
+Then connect into the webui cluster IP. You can tunnel into the node or change the service to be a LoadBalancer.
