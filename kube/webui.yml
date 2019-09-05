@@ -1,0 +1,29 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webui
+  labels:
+    app: webui
+  annotations:
+    kubernetes.io/target-runtime: kiyot
+spec:
+  restartPolicy: OnFailure
+  containers:
+    - name: webui
+      image: elotl/dockercoins-webui
+      ports:
+        - containerPort: 80
+  nodeSelector:
+    kubernetes.io/role: milpa-worker
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webui
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+  selector:
+    app: webui

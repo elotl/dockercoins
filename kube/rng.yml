@@ -1,0 +1,29 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: rng
+  labels:
+    app: rng
+  annotations:
+    kubernetes.io/target-runtime: kiyot
+spec:
+  restartPolicy: OnFailure
+  containers:
+    - name: rng
+      image: elotl/dockercoins-rng
+      ports:
+        - containerPort: 80
+  nodeSelector:
+    kubernetes.io/role: milpa-worker
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rng
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+  selector:
+    app: rng

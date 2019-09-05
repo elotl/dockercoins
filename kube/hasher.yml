@@ -1,0 +1,29 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hasher
+  labels:
+    app: hasher
+  annotations:
+    kubernetes.io/target-runtime: kiyot
+spec:
+  restartPolicy: OnFailure
+  containers:
+    - name: hasher
+      image: elotl/dockercoins-hasher
+      ports:
+        - containerPort: 80
+  nodeSelector:
+    kubernetes.io/role: milpa-worker
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hasher
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+  selector:
+    app: hasher

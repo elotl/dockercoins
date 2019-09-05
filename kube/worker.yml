@@ -1,0 +1,37 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker
+  labels:
+    app: worker
+spec:
+  selector:
+    matchLabels:
+      app: worker
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: worker
+      annotations:
+        kubernetes.io/target-runtime: kiyot
+    spec:
+      containers:
+        - name: worker
+          image: elotl/dockercoins-worker
+          ports:
+            - containerPort: 80
+      nodeSelector:
+        kubernetes.io/role: milpa-worker
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: worker
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+  selector:
+    app: worker
